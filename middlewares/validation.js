@@ -85,11 +85,237 @@ const validatePagination = [
     handleValidationErrors
 ];
 
+/**
+ * Validaciones para citas (Appointments)
+ */
+
+// Validación para crear una cita (POST)
+const validateCreateAppointment = [
+    body('appointment_date')
+        .notEmpty().withMessage('La fecha de la cita es requerida')
+        .isISO8601().withMessage('La fecha debe estar en formato ISO8601 (YYYY-MM-DD)'),
+    body('appointment_time')
+        .notEmpty().withMessage('La hora de la cita es requerida')
+        .matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).withMessage('La hora debe estar en formato HH:MM (24 horas)'),
+    body('type')
+        .notEmpty().withMessage('El tipo de cita es requerido')
+        .isString().withMessage('El tipo debe ser una cadena de texto')
+        .trim(),
+    body('status')
+        .optional()
+        .isIn(['scheduled', 'completed', 'cancelled', 'rescheduled']).withMessage('El estado debe ser: scheduled, completed, cancelled o rescheduled'),
+    body('notes')
+        .optional()
+        .isString().withMessage('Las notas deben ser una cadena de texto'),
+    body('patient_info')
+        .notEmpty().withMessage('La información del paciente es requerida')
+        .isObject().withMessage('patient_info debe ser un objeto'),
+    body('patient_info.id')
+        .notEmpty().withMessage('El ID del paciente es requerido')
+        .isInt({ min: 1 }).withMessage('El ID del paciente debe ser un número entero positivo'),
+    body('doctor_info')
+        .optional()
+        .isObject().withMessage('doctor_info debe ser un objeto'),
+    body('duration_minutes')
+        .optional()
+        .isInt({ min: 1 }).withMessage('La duración debe ser un número entero positivo en minutos'),
+    handleValidationErrors
+];
+
+// Validación para actualizar una cita (PUT)
+const validateUpdateAppointment = [
+    param('id')
+        .isInt({ min: 1 }).withMessage('El ID debe ser un número entero positivo'),
+    body('appointment_date')
+        .optional()
+        .isISO8601().withMessage('La fecha debe estar en formato ISO8601 (YYYY-MM-DD)'),
+    body('appointment_time')
+        .optional()
+        .matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).withMessage('La hora debe estar en formato HH:MM (24 horas)'),
+    body('type')
+        .optional()
+        .isString().withMessage('El tipo debe ser una cadena de texto')
+        .trim(),
+    body('status')
+        .optional()
+        .isIn(['scheduled', 'completed', 'cancelled', 'rescheduled']).withMessage('El estado debe ser: scheduled, completed, cancelled o rescheduled'),
+    body('notes')
+        .optional()
+        .isString().withMessage('Las notas deben ser una cadena de texto'),
+    body('patient_info')
+        .optional()
+        .isObject().withMessage('patient_info debe ser un objeto'),
+    body('doctor_info')
+        .optional()
+        .isObject().withMessage('doctor_info debe ser un objeto'),
+    body('duration_minutes')
+        .optional()
+        .isInt({ min: 1 }).withMessage('La duración debe ser un número entero positivo en minutos'),
+    handleValidationErrors
+];
+
+// Validación para obtener una cita por ID
+const validateAppointmentId = [
+    param('id')
+        .notEmpty().withMessage('El ID es requerido')
+        .isInt({ min: 1 }).withMessage('El ID debe ser un número entero positivo'),
+    handleValidationErrors
+];
+
+// Validación para actualizar estado de cita
+const validateUpdateStatus = [
+    param('id')
+        .isInt({ min: 1 }).withMessage('El ID debe ser un número entero positivo'),
+    body('status')
+        .notEmpty().withMessage('El estado es requerido')
+        .isIn(['scheduled', 'completed', 'cancelled', 'rescheduled']).withMessage('El estado debe ser: scheduled, completed, cancelled o rescheduled'),
+    handleValidationErrors
+];
+
+// Validación para búsqueda por fecha
+const validateDate = [
+    query('date')
+        .notEmpty().withMessage('La fecha es requerida')
+        .isISO8601().withMessage('La fecha debe estar en formato ISO8601 (YYYY-MM-DD)'),
+    handleValidationErrors
+];
+
+// Validación para búsqueda por paciente (query param)
+const validatePatientId = [
+    query('patient_id')
+        .notEmpty().withMessage('El ID del paciente es requerido')
+        .isInt({ min: 1 }).withMessage('El ID del paciente debe ser un número entero positivo'),
+    handleValidationErrors
+];
+
+/**
+ * Validaciones para pacientes (Patients)
+ */
+
+// Validación de ID de paciente (param)
+const validatePatientIdParam = [
+    param('id')
+        .notEmpty().withMessage('El ID es requerido')
+        .isInt({ min: 1 }).withMessage('El ID debe ser un número entero positivo'),
+    handleValidationErrors
+];
+
+// Validación para búsqueda por email (query)
+const validatePatientEmailQuery = [
+    query('email')
+        .notEmpty().withMessage('El email es requerido')
+        .isEmail().withMessage('El email debe tener un formato válido')
+        .trim(),
+    handleValidationErrors
+];
+
+// Validación para crear paciente
+const validateCreatePatient = [
+    body('first_name')
+        .notEmpty().withMessage('El nombre es requerido')
+        .isString().withMessage('El nombre debe ser una cadena de texto')
+        .trim()
+        .isLength({ min: 2 }).withMessage('El nombre debe tener al menos 2 caracteres'),
+    body('last_name')
+        .notEmpty().withMessage('El apellido es requerido')
+        .isString().withMessage('El apellido debe ser una cadena de texto')
+        .trim(),
+    body('email')
+        .notEmpty().withMessage('El email es requerido')
+        .isEmail().withMessage('El email debe tener un formato válido')
+        .trim(),
+    body('phone')
+        .optional()
+        .isString().withMessage('El teléfono debe ser una cadena de texto')
+        .trim(),
+    body('birth_date')
+        .notEmpty().withMessage('La fecha de nacimiento es requerida')
+        .isISO8601().withMessage('La fecha debe estar en formato ISO8601 (YYYY-MM-DD)'),
+    body('address')
+        .optional()
+        .isString().withMessage('La dirección debe ser una cadena de texto')
+        .trim(),
+    body('insurance')
+        .optional()
+        .isString().withMessage('El seguro debe ser una cadena de texto')
+        .trim(),
+    body('orthodontics')
+        .optional()
+        .isObject().withMessage('orthodontics debe ser un objeto'),
+    handleValidationErrors
+];
+
+// Validación para actualizar paciente
+const validateUpdatePatient = [
+    body('first_name')
+        .optional()
+        .isString().withMessage('El nombre debe ser una cadena de texto')
+        .trim()
+        .isLength({ min: 2 }).withMessage('El nombre debe tener al menos 2 caracteres'),
+    body('last_name')
+        .optional()
+        .isString().withMessage('El apellido debe ser una cadena de texto')
+        .trim(),
+    body('email')
+        .optional()
+        .isEmail().withMessage('El email debe tener un formato válido')
+        .trim(),
+    body('phone')
+        .optional()
+        .isString().withMessage('El teléfono debe ser una cadena de texto')
+        .trim(),
+    body('birth_date')
+        .optional()
+        .isISO8601().withMessage('La fecha debe estar en formato ISO8601 (YYYY-MM-DD)'),
+    body('address')
+        .optional()
+        .isString().withMessage('La dirección debe ser una cadena de texto')
+        .trim(),
+    body('insurance')
+        .optional()
+        .isString().withMessage('El seguro debe ser una cadena de texto')
+        .trim(),
+    body('orthodontics')
+        .optional()
+        .isObject().withMessage('orthodontics debe ser un objeto'),
+    handleValidationErrors
+];
+
+// Validación para ajuste de ortodoncia
+const validateOrthodonticAdjustment = [
+    body('adjustment_date')
+        .notEmpty().withMessage('La fecha del ajuste es requerida')
+        .isISO8601().withMessage('La fecha debe estar en formato ISO8601 (YYYY-MM-DD)'),
+    body('adjustment_type')
+        .notEmpty().withMessage('El tipo de ajuste es requerido')
+        .isString().withMessage('El tipo de ajuste debe ser una cadena de texto')
+        .trim(),
+    body('notes')
+        .optional()
+        .isString().withMessage('Las notas deben ser una cadena de texto')
+        .trim(),
+    body('next_appointment')
+        .optional()
+        .isISO8601().withMessage('La fecha de la próxima cita debe estar en formato ISO8601 (YYYY-MM-DD)'),
+    handleValidationErrors
+];
+
 module.exports = {
     validateUserId,
     validateUpdateUser,
     validateRoleQuery,
     validateSearchQuery,
     validatePagination,
+    validateCreateAppointment,
+    validateUpdateAppointment,
+    validateAppointmentId,
+    validateUpdateStatus,
+    validateDate,
+    validatePatientId,
+    validatePatientIdParam,
+    validatePatientEmailQuery,
+    validateCreatePatient,
+    validateUpdatePatient,
+    validateOrthodonticAdjustment,
     handleValidationErrors
 };

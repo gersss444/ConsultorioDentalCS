@@ -37,7 +37,12 @@ app.use('/api/auth', authRoutes);
 
 // Las siguientes rutas requieren autenticación JWT (manejado por middleware)
 const userRoutes = require('./routes/user');
+const appointmentRoutes = require('./routes/appointment');
+const patientRoutes = require('./routes/patient');
+
 app.use('/api/users', userRoutes);
+app.use('/api/appointments', appointmentRoutes);
+app.use('/api/patients', patientRoutes);
 
 // Manejo de rutas no encontradas (404)
 // Se ejecuta cuando una petición no coincide con ninguna ruta definida
@@ -54,7 +59,23 @@ app.use((req, res) => {
             'GET /api/users/search?q=',
             'GET /api/users/role?role=',
             'PUT /api/users/:id',
-            'DELETE /api/users/:id'
+            'DELETE /api/users/:id',
+            'GET /api/appointments',
+            'GET /api/appointments/:id',
+            'GET /api/appointments/date?date=YYYY-MM-DD',
+            'GET /api/appointments/patient?patient_id=N',
+            'POST /api/appointments',
+            'PUT /api/appointments/:id',
+            'PATCH /api/appointments/:id/status',
+            'DELETE /api/appointments/:id',
+            'GET /api/patients',
+            'GET /api/patients/:id',
+            'GET /api/patients/search?q=',
+            'GET /api/patients/email?email=',
+            'POST /api/patients',
+            'PUT /api/patients/:id',
+            'DELETE /api/patients/:id',
+            'POST /api/patients/:id/orthodontics/adjustments'
         ]
     });
 });
@@ -84,6 +105,8 @@ async function startServer() {
             console.log(`Health check: http://localhost:${PORT}/health`);
             console.log(`Login: POST http://localhost:${PORT}/api/auth/login`);
             console.log(`Users: http://localhost:${PORT}/api/users`);
+            console.log(`Appointments: http://localhost:${PORT}/api/appointments`);
+            console.log(`Patients: http://localhost:${PORT}/api/patients`);
             console.log('='.repeat(60));
             console.log(' Todas las rutas requieren autenticación JWT');
             console.log('='.repeat(60));

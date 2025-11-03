@@ -82,6 +82,16 @@ class DatabaseConnection {
             await db.collection('users').createIndex({ email: 1 }, { unique: true });
             await db.collection('users').createIndex({ role: 1 });
             
+            // Índices para appointments
+            await db.collection('appointments').createIndex({ appointment_date: 1, appointment_time: 1 });
+            await db.collection('appointments').createIndex({ 'patient_info.id': 1 });
+            await db.collection('appointments').createIndex({ status: 1 });
+            
+            // Índices para patients
+            await db.collection('patients').createIndex({ email: 1 }, { unique: true });
+            await db.collection('patients').createIndex({ phone: 1 });
+            await db.collection('patients').createIndex({ 'orthodontics.status': 1 });
+            
             console.log('Índices creados exitosamente');
         } catch (error) {
             console.error('Error creando índices:', error);

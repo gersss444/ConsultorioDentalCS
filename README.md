@@ -35,13 +35,33 @@ Una vez iniciado el servidor, puedes probar todos los endpoints con Postman:
 - `PUT /api/users/:id` - Actualizar usuario (requiere JWT)
 - `DELETE /api/users/:id` - Desactivar usuario (requiere JWT)
 
+#### Appointments (Citas)
+- `GET /api/appointments?page=1&limit=10` - Listar citas con paginación (requiere JWT)
+- `GET /api/appointments/:id` - Obtener cita por ID (requiere JWT)
+- `GET /api/appointments/date?date=YYYY-MM-DD` - Buscar citas por fecha (requiere JWT)
+- `GET /api/appointments/patient?patient_id=N` - Buscar citas por paciente (requiere JWT)
+- `POST /api/appointments` - Crear nueva cita (requiere JWT)
+- `PUT /api/appointments/:id` - Actualizar cita completa (requiere JWT)
+- `PATCH /api/appointments/:id/status` - Actualizar estado de cita (requiere JWT)
+- `DELETE /api/appointments/:id` - Eliminar cita (requiere JWT)
+
+#### Patients (Pacientes)
+- `GET /api/patients?page=1&limit=10` - Listar pacientes con paginación (requiere JWT)
+- `GET /api/patients/:id` - Obtener paciente por ID (requiere JWT)
+- `GET /api/patients/search?q=termino` - Buscar pacientes por nombre/apellido (requiere JWT)
+- `GET /api/patients/email?email=correo@ejemplo.com` - Buscar paciente por email (requiere JWT)
+- `POST /api/patients` - Crear nuevo paciente (requiere JWT)
+- `PUT /api/patients/:id` - Actualizar paciente completo (requiere JWT)
+- `DELETE /api/patients/:id` - Eliminar paciente (requiere JWT)
+- `POST /api/patients/:id/orthodontics/adjustments` - Agregar ajuste de ortodoncia (requiere JWT)
+
 ## Primer uso
 
 1. **Registra tu primer usuario** con `POST /api/auth/register`:
 ```json
 {
     "email": "admin@consultorio.com",
-    "password": "tu_password_segura",
+    "password": "contraseña",
     "name": "Administrador",
     "role": "admin"
 }
@@ -51,8 +71,5 @@ Una vez iniciado el servidor, puedes probar todos los endpoints con Postman:
 
 3. Para futuros accesos, usa `POST /api/auth/login` con tus credenciales.
 
-### Nota sobre autenticación
-Para acceder a las rutas protegidas, debes incluir el token en el header:
-```
-Authorization: Bearer <tu_token_jwt>
-```
+
+
