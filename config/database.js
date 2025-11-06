@@ -92,6 +92,15 @@ class DatabaseConnection {
             await db.collection('patients').createIndex({ phone: 1 });
             await db.collection('patients').createIndex({ 'orthodontics.status': 1 });
             
+            // Índices para inventory
+            await db.collection('inventory').createIndex({ name: 1 });
+            await db.collection('inventory').createIndex({ category: 1 });
+            await db.collection('inventory').createIndex({ current_stock: 1 });
+            
+            // Índices para dentalrecords
+            await db.collection('dentalrecords').createIndex({ patient_id: 1 });
+            await db.collection('dentalrecords').createIndex({ created_at: -1 });
+            
             console.log('Índices creados exitosamente');
         } catch (error) {
             console.error('Error creando índices:', error);

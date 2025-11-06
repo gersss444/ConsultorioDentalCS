@@ -300,6 +300,198 @@ const validateOrthodonticAdjustment = [
     handleValidationErrors
 ];
 
+/**
+ * Validaciones para registros dentales (Dental Records)
+ */
+
+// Validación para crear registro dental
+const validateCreateDentalRecord = [
+    body('patient_id')
+        .notEmpty().withMessage('El ID del paciente es requerido')
+        .isInt({ min: 1 }).withMessage('El ID del paciente debe ser un número entero positivo'),
+    body('description')
+        .notEmpty().withMessage('La descripción es requerida')
+        .isString().withMessage('La descripción debe ser una cadena de texto')
+        .trim(),
+    body('diagnosis')
+        .optional()
+        .isString().withMessage('El diagnóstico debe ser una cadena de texto')
+        .trim(),
+    body('treatment_plan')
+        .optional()
+        .isString().withMessage('El plan de tratamiento debe ser una cadena de texto')
+        .trim(),
+    body('treatment_notes')
+        .optional()
+        .isString().withMessage('Las notas de tratamiento deben ser una cadena de texto')
+        .trim(),
+    body('treatment_cost')
+        .optional()
+        .isFloat({ min: 0 }).withMessage('El costo del tratamiento debe ser un número positivo'),
+    body('payment_status')
+        .optional()
+        .isIn(['pending', 'paid', 'partial']).withMessage('El estado de pago debe ser: pending, paid o partial'),
+    body('record_type')
+        .optional()
+        .isString().withMessage('El tipo de registro debe ser una cadena de texto')
+        .trim(),
+    handleValidationErrors
+];
+
+// Validación para actualizar registro dental
+const validateUpdateDentalRecord = [
+    param('id')
+        .optional()
+        .isInt({ min: 1 }).withMessage('El ID debe ser un número entero positivo'),
+    body('patient_id')
+        .optional()
+        .isInt({ min: 1 }).withMessage('El ID del paciente debe ser un número entero positivo'),
+    body('description')
+        .optional()
+        .isString().withMessage('La descripción debe ser una cadena de texto')
+        .trim(),
+    body('diagnosis')
+        .optional()
+        .isString().withMessage('El diagnóstico debe ser una cadena de texto')
+        .trim(),
+    body('treatment_plan')
+        .optional()
+        .isString().withMessage('El plan de tratamiento debe ser una cadena de texto')
+        .trim(),
+    body('treatment_notes')
+        .optional()
+        .isString().withMessage('Las notas de tratamiento deben ser una cadena de texto')
+        .trim(),
+    body('treatment_cost')
+        .optional()
+        .isFloat({ min: 0 }).withMessage('El costo del tratamiento debe ser un número positivo'),
+    body('payment_status')
+        .optional()
+        .isIn(['pending', 'paid', 'partial']).withMessage('El estado de pago debe ser: pending, paid o partial'),
+    body('record_type')
+        .optional()
+        .isString().withMessage('El tipo de registro debe ser una cadena de texto')
+        .trim(),
+    handleValidationErrors
+];
+
+// Validación de ID de registro dental
+const validateDentalRecordId = [
+    param('id')
+        .notEmpty().withMessage('El ID es requerido')
+        .isInt({ min: 1 }).withMessage('El ID debe ser un número entero positivo'),
+    handleValidationErrors
+];
+
+/**
+ * Validaciones para inventario (Inventory)
+ */
+
+// Validación para crear item de inventario
+const validateCreateInventory = [
+    body('name')
+        .notEmpty().withMessage('El nombre es requerido')
+        .isString().withMessage('El nombre debe ser una cadena de texto')
+        .trim()
+        .isLength({ min: 2 }).withMessage('El nombre debe tener al menos 2 caracteres'),
+    body('category')
+        .notEmpty().withMessage('La categoría es requerida')
+        .isString().withMessage('La categoría debe ser una cadena de texto')
+        .trim(),
+    body('description')
+        .optional()
+        .isString().withMessage('La descripción debe ser una cadena de texto')
+        .trim(),
+    body('current_stock')
+        .optional()
+        .isInt({ min: 0 }).withMessage('El stock actual debe ser un número entero positivo'),
+    body('min_stock')
+        .optional()
+        .isInt({ min: 0 }).withMessage('El stock mínimo debe ser un número entero positivo'),
+    body('cost_per_unit')
+        .optional()
+        .isFloat({ min: 0 }).withMessage('El costo por unidad debe ser un número positivo'),
+    body('supplier')
+        .optional()
+        .isString().withMessage('El proveedor debe ser una cadena de texto')
+        .trim(),
+    handleValidationErrors
+];
+
+// Validación para actualizar item de inventario
+const validateUpdateInventory = [
+    body('name')
+        .optional()
+        .isString().withMessage('El nombre debe ser una cadena de texto')
+        .trim()
+        .isLength({ min: 2 }).withMessage('El nombre debe tener al menos 2 caracteres'),
+    body('category')
+        .optional()
+        .isString().withMessage('La categoría debe ser una cadena de texto')
+        .trim(),
+    body('description')
+        .optional()
+        .isString().withMessage('La descripción debe ser una cadena de texto')
+        .trim(),
+    body('current_stock')
+        .optional()
+        .isInt({ min: 0 }).withMessage('El stock actual debe ser un número entero positivo'),
+    body('min_stock')
+        .optional()
+        .isInt({ min: 0 }).withMessage('El stock mínimo debe ser un número entero positivo'),
+    body('cost_per_unit')
+        .optional()
+        .isFloat({ min: 0 }).withMessage('El costo por unidad debe ser un número positivo'),
+    body('supplier')
+        .optional()
+        .isString().withMessage('El proveedor debe ser una cadena de texto')
+        .trim(),
+    handleValidationErrors
+];
+
+// Validación de ID de inventario
+const validateInventoryId = [
+    param('id')
+        .notEmpty().withMessage('El ID es requerido')
+        .isInt({ min: 1 }).withMessage('El ID debe ser un número entero positivo'),
+    handleValidationErrors
+];
+
+// Validación para ajustar stock
+const validateAdjustStock = [
+    body('adjustment')
+        .notEmpty().withMessage('El ajuste es requerido')
+        .isInt().withMessage('El ajuste debe ser un número entero'),
+    body('reason')
+        .optional()
+        .isString().withMessage('La razón debe ser una cadena de texto')
+        .trim(),
+    body('notes')
+        .optional()
+        .isString().withMessage('Las notas deben ser una cadena de texto')
+        .trim(),
+    handleValidationErrors
+];
+
+// Validación para búsqueda por categoría
+const validateCategoryQuery = [
+    query('category')
+        .notEmpty().withMessage('La categoría es requerida')
+        .isString().withMessage('La categoría debe ser una cadena de texto')
+        .trim(),
+    handleValidationErrors
+];
+
+// Validación para búsqueda por nombre en inventory
+const validateInventorySearchQuery = [
+    query('name')
+        .notEmpty().withMessage('El nombre es requerido')
+        .isLength({ min: 2 }).withMessage('El nombre debe tener al menos 2 caracteres')
+        .isString().withMessage('El nombre debe ser una cadena de texto')
+        .trim(),
+    handleValidationErrors
+];
+
 module.exports = {
     validateUserId,
     validateUpdateUser,
@@ -317,5 +509,14 @@ module.exports = {
     validateCreatePatient,
     validateUpdatePatient,
     validateOrthodonticAdjustment,
+    validateCreateDentalRecord,
+    validateUpdateDentalRecord,
+    validateDentalRecordId,
+    validateCreateInventory,
+    validateUpdateInventory,
+    validateInventoryId,
+    validateAdjustStock,
+    validateCategoryQuery,
+    validateInventorySearchQuery,
     handleValidationErrors
 };

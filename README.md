@@ -1,4 +1,4 @@
-# Sistema REST API - Consultorio Dental
+# Sistema Consultorio Dental
 
 API REST para gestión de consultorio dental.
 
@@ -54,6 +54,25 @@ Una vez iniciado el servidor, puedes probar todos los endpoints con Postman:
 - `PUT /api/patients/:id` - Actualizar paciente completo (requiere JWT)
 - `DELETE /api/patients/:id` - Eliminar paciente (requiere JWT)
 - `POST /api/patients/:id/orthodontics/adjustments` - Agregar ajuste de ortodoncia (requiere JWT)
+
+#### Dental Records (Registros Dentales)
+- `GET /api/dentalrecords` - Listar todos los registros dentales sin paginación (requiere JWT)
+- `GET /api/dentalrecords/:id` - Obtener registro dental por ID (requiere JWT)
+- `GET /api/dentalrecords/patient?patient_id=N` - Buscar registros por paciente (requiere JWT)
+- `POST /api/dentalrecords` - Crear nuevo registro dental (requiere JWT, valida que patient_id exista)
+- `PUT /api/dentalrecords/:id` - Actualizar registro dental completo (requiere JWT)
+- `PATCH /api/dentalrecords/:id` - Actualizar varios campos del registro (requiere JWT)
+- `DELETE /api/dentalrecords/:id` - Eliminar registro dental (requiere JWT)
+
+#### Inventory (Inventario)
+- `GET /api/inventory?page=1&limit=10` - Listar items del inventario con paginación (requiere JWT)
+- `GET /api/inventory/:id` - Obtener item por ID (requiere JWT)
+- `GET /api/inventory/category?category=materiales` - Buscar items por categoría (requiere JWT)
+- `GET /api/inventory/search?name=termino` - Buscar items por nombre (requiere JWT)
+- `POST /api/inventory` - Crear nuevo item en el inventario (requiere JWT)
+- `PUT /api/inventory/:id` - Actualizar item completo (requiere JWT)
+- `PATCH /api/inventory/:id/stock` - Ajustar stock de un item (requiere JWT)
+- `DELETE /api/inventory/:id` - Eliminar item del inventario (requiere JWT)
 
 ## Primer uso
 

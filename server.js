@@ -39,10 +39,14 @@ app.use('/api/auth', authRoutes);
 const userRoutes = require('./routes/user');
 const appointmentRoutes = require('./routes/appointment');
 const patientRoutes = require('./routes/patient');
+const dentalRecordsRoutes = require('./routes/dentalRecordsRoutes');
+const inventoryRoutes = require('./routes/inventory');
 
 app.use('/api/users', userRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/patients', patientRoutes);
+app.use('/api/dentalrecords', dentalRecordsRoutes);
+app.use('/api/inventory', inventoryRoutes);
 
 // Manejo de rutas no encontradas (404)
 // Se ejecuta cuando una petición no coincide con ninguna ruta definida
@@ -75,7 +79,22 @@ app.use((req, res) => {
             'POST /api/patients',
             'PUT /api/patients/:id',
             'DELETE /api/patients/:id',
-            'POST /api/patients/:id/orthodontics/adjustments'
+            'POST /api/patients/:id/orthodontics/adjustments',
+            'GET /api/dentalrecords',
+            'GET /api/dentalrecords/:id',
+            'GET /api/dentalrecords/patient?patient_id=N',
+            'POST /api/dentalrecords',
+            'PUT /api/dentalrecords/:id',
+            'PATCH /api/dentalrecords/:id',
+            'DELETE /api/dentalrecords/:id',
+            'GET /api/inventory',
+            'GET /api/inventory/:id',
+            'GET /api/inventory/category?category=',
+            'GET /api/inventory/search?name=',
+            'POST /api/inventory',
+            'PUT /api/inventory/:id',
+            'PATCH /api/inventory/:id/stock',
+            'DELETE /api/inventory/:id'
         ]
     });
 });
@@ -104,9 +123,11 @@ async function startServer() {
             console.log(`Servidor escuchando en http://localhost:${PORT}`);
             console.log(`Health check: http://localhost:${PORT}/health`);
             console.log(`Login: POST http://localhost:${PORT}/api/auth/login`);
-            console.log(`Users: http://localhost:${PORT}/api/users`);
             console.log(`Appointments: http://localhost:${PORT}/api/appointments`);
+            console.log(`Dental Records: http://localhost:${PORT}/api/dentalrecords`);
             console.log(`Patients: http://localhost:${PORT}/api/patients`);
+            console.log(`Inventory: http://localhost:${PORT}/api/inventory`);
+            console.log(`Users: http://localhost:${PORT}/api/users`);
             console.log('='.repeat(60));
             console.log(' Todas las rutas requieren autenticación JWT');
             console.log('='.repeat(60));
