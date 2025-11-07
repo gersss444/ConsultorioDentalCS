@@ -90,5 +90,179 @@ Una vez iniciado el servidor, puedes probar todos los endpoints con Postman:
 
 3. Para futuros accesos, usa `POST /api/auth/login` con tus credenciales.
 
+## Ejemplos de uso
+
+### Autenticación
+
+#### Login
+```json
+POST /api/auth/login
+{
+    "email": "admin@gmail.com",
+    "password": "contraseña"
+}
+```
+### Patients (Pacientes)
+
+#### Crear un paciente
+```json
+POST /api/patients
+{
+    "first_name": "Manuel",
+    "last_name": "Anaya",
+    "email": "manu.ana@gmail.com",
+    "phone": "6221547898",
+    "birth_date": "2004-08-06",
+    "address": "San vicente Av 14",
+    "insurance": "IMSS"
+}
+```
+
+#### Buscar pacientes por nombre
+```
+GET /api/patients/search?q=Manuel
+```
+
+#### Obtener paciente por ID
+```
+GET /api/patients/1
+```
+
+### Appointments (Citas)
+
+#### Crear una cita
+```json
+POST /api/appointments
+{
+    "appointment_date": "2024-12-15",
+    "appointment_time": "10:00",
+    "type": "consulta",
+    "status": "scheduled",
+    "duration_minutes": 30,
+    "notes": "Primera consulta",
+    "patient_info": {
+        "id": 1,
+        "name": "fernando Romo"
+    },
+    "doctor_info": {
+        "id": 1,
+        "name": "Dr. Cristian Suarez"
+    }
+}
+```
+
+#### Actualizar estado de cita
+```json
+PATCH /api/appointments/1/status
+{
+    "status": "completed"
+}
+```
+
+#### Buscar citas por fecha
+```
+GET /api/appointments/date?date=2024-12-15
+```
+
+#### Buscar citas por paciente
+```
+GET /api/appointments/patient?patient_id=1
+```
+
+### Dental Records (Registros Dentales)
+
+#### Crear un registro dental
+```json
+POST /api/dentalrecords
+{
+    "patient_id": 1,
+    "description": "Limpieza dental ",
+    "diagnosis": "Gingivitis ",
+    "treatment_plan": "Limpieza y aplicación de flúor",
+    "treatment_notes": "Paciente requiere seguimiento",
+    "treatment_cost": 500,
+    "payment_status": "paid",
+    "record_type": "general"
+}
+```
+
+**Nota importante:** El `patient_id` debe existir en la base de datos. Si intentas usar un `patient_id` que no existe, recibirás un error 400.
+
+#### Actualizar registro dental (PATCH)
+```json
+PATCH /api/dentalrecords/1
+{
+    "payment_status": "paid",
+    "treatment_cost": 600,
+    "description": "Descripción actualizada"
+}
+```
+
+#### Buscar registros por paciente
+```
+GET /api/dentalrecords/patient?patient_id=1
+```
+
+### Inventory (Inventario)
+
+#### Crear un item en el inventario
+```json
+POST /api/inventory
+{
+    "name": "Anestesia local",
+    "category": "medicamentos",
+    "description": "Anestesia para procedimientos dentales",
+    "current_stock": 50,
+    "min_stock": 10,
+    "cost_per_unit": 25.50,
+    "supplier": "Proveedor Dental S.A."
+}
+```
+
+#### Ajustar stock de un item
+```json
+PATCH /api/inventory/1/stock
+{
+    "adjustment": -5,
+    "reason": "Uso en procedimiento",
+    "notes": "Stock reducido por uso"
+}
+```
+
+#### Buscar items por categoría
+```
+GET /api/inventory/category?category=medicamentos
+```
+
+#### Buscar items por nombre
+```
+GET /api/inventory/search?name=Anestesia
+```
+
+### Users (Usuarios)
+
+#### Actualizar un usuario
+```json
+PUT /api/users/1
+{
+    "name": "Dr. Cristian",
+    "last_name": "Suárez",
+    "email": "cristian.suarez@gmail.com",
+    "role": "doctor",
+    "specialty": "Ortodoncia",
+    "phone": "6221445474"
+}
+```
+
+#### Buscar usuarios por rol
+```
+GET /api/users/role?role=doctor
+```
+
+#### Buscar usuarios por nombre
+```
+GET /api/users/search?q=Cristian
+```
+
 
 
