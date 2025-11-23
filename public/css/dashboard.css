@@ -6,31 +6,29 @@ body {
     background-color: #F3F4F6;
     margin: 0;
     padding: 0;
-    font-family: 'Inter', system-ui, sans-serif; /* Asegurar fuente */
+    font-family: 'Inter', system-ui, sans-serif;
 }
 
-/* El contenedor principal que abraza todo (Sidebar + Contenido) */
 .admin-layout {
     display: flex;
     min-height: 100vh;
     width: 100%;
 }
 
-/* --- SIDEBAR (BARRA LATERAL IZQUIERDA) --- */
+/* --- SIDEBAR --- */
 .sidebar {
     background-color: #FFFFFF;
-    width: 250px;       /* Ancho fijo */
-    height: 100vh;      /* Altura completa de la pantalla */
-    position: fixed;    /* Se queda quieta al hacer scroll */
+    width: 250px;
+    height: 100vh;
+    position: fixed;
     top: 0;
     left: 0;
     border-right: 1px solid #E5E7EB;
     display: flex;
     flex-direction: column;
-    z-index: 50;        /* Encima del contenido normal */
+    z-index: 50;
 }
 
-/* Header del Sidebar (Logo) */
 .sidebar-header {
     height: 70px;
     display: flex;
@@ -42,14 +40,13 @@ body {
 .brand-logo {
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--color-primary, #2563EB); /* Fallback a azul si falla variable */
+    color: var(--color-primary, #2563EB);
     text-decoration: none;
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
-/* Navegación (Links) */
 .sidebar-nav {
     flex: 1;
     padding: 1.5rem 1rem;
@@ -64,54 +61,36 @@ body {
     align-items: center;
     gap: 0.75rem;
     padding: 0.75rem 1rem;
-    color: #6B7280; /* Gris */
+    color: #6B7280;
     text-decoration: none;
     border-radius: 8px;
     font-weight: 500;
     transition: all 0.2s;
 }
 
-.nav-icon {
-    font-size: 1.2rem;
-    width: 24px;
-    text-align: center;
-}
+.nav-icon { font-size: 1.2rem; width: 24px; text-align: center; }
 
-/* Hover y Activo */
-.nav-link:hover {
-    background-color: #F3F4F6;
-    color: var(--color-primary, #2563EB);
-}
+.nav-link:hover { background-color: #F3F4F6; color: var(--color-primary, #2563EB); }
+.nav-link.active { background-color: #EFF6FF; color: var(--color-primary, #2563EB); font-weight: 600; }
 
-.nav-link.active {
-    background-color: #EFF6FF;
-    color: var(--color-primary, #2563EB);
-    font-weight: 600;
-}
+.sidebar-footer { padding: 1rem; border-top: 1px solid #F3F4F6; }
 
-/* Footer del Sidebar (Botón Salir) */
-.sidebar-footer {
-    padding: 1rem;
-    border-top: 1px solid #F3F4F6;
-}
-
-/* --- CONTENIDO PRINCIPAL (DERECHA) --- */
+/* --- CONTENIDO PRINCIPAL --- */
 .main-content {
     flex: 1;
-    margin-left: 250px; /* IMPORTANTE: Deja el espacio para la sidebar fija */
+    margin-left: 250px;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    width: calc(100% - 250px); /* Asegura que no se desborde */
+    width: calc(100% - 250px);
 }
 
-/* Topbar (Barra superior usuario) */
 .top-bar {
     height: 70px;
     background-color: #FFFFFF;
     border-bottom: 1px solid #E5E7EB;
     display: flex;
-    justify-content: flex-end; /* Alinea todo a la derecha */
+    justify-content: flex-end;
     align-items: center;
     padding: 0 2rem;
     position: sticky;
@@ -119,110 +98,53 @@ body {
     z-index: 40;
 }
 
-.user-profile {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
+.user-profile { display: flex; align-items: center; gap: 1rem; }
 .user-avatar {
-    width: 36px;
-    height: 36px;
+    width: 36px; height: 36px;
     background-color: var(--color-primary, #2563EB);
     color: white;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    font-size: 0.9rem;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 0.9rem;
 }
-
-.user-details {
-    text-align: right;
-    line-height: 1.2;
-}
-
+.user-details { text-align: right; line-height: 1.2; }
 .user-name { font-weight: 600; font-size: 0.9rem; color: #1F2937; }
 .user-role { font-size: 0.75rem; color: #6B7280; text-transform: capitalize; }
 
-/* Contenedor interno (Padding de la página) */
-.page-container {
-    padding: 2rem;
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
-}
+.page-container { padding: 2rem; max-width: 1200px; width: 100%; margin: 0 auto; }
 
 /* =========================================
-   2. ESTILOS DE LA VISTA (DASHBOARD)
+   2. ESTILOS DE DASHBOARD
    ========================================= */
 
-/* Barra de Acciones */
 .actions-bar {
     background-color: white;
     padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     margin-bottom: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+    display: flex; flex-direction: column; gap: 1.5rem;
 }
 
-.filters-group {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: 100%;
-}
+.filters-group { display: flex; flex-direction: column; gap: 1rem; width: 100%; }
+.action-buttons { display: flex; gap: 0.75rem; align-items: flex-end; }
 
-.action-buttons {
-    display: flex;
-    gap: 0.75rem;
-    align-items: flex-end;
-}
-
-/* Inputs y Botones (Altura unificada) */
-.form-input, .btn-primary, .btn-secondary, .btn-icon {
-    height: 42px;
-    box-sizing: border-box;
-}
-
-.form-input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #D1D5DB;
-    border-radius: 6px;
-}
+.form-input, .btn-primary, .btn-secondary, .btn-icon { height: 42px; box-sizing: border-box; }
+.form-input { width: 100%; padding: 0.5rem; border: 1px solid #D1D5DB; border-radius: 6px; }
 
 .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    padding: 0 1.5rem;
+    display: inline-flex; align-items: center; justify-content: center;
+    white-space: nowrap; padding: 0 1.5rem;
     background-color: var(--color-accent, #0D9488);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
+    color: white; border: none; border-radius: 6px;
+    font-weight: 600; cursor: pointer;
 }
-
 .btn-icon {
-    width: 42px;
-    background: white;
-    border: 1px solid #D1D5DB;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1.2rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    width: 42px; background: white; border: 1px solid #D1D5DB; border-radius: 6px;
+    cursor: pointer; font-size: 1.2rem; display: inline-flex; align-items: center; justify-content: center;
 }
 
-/* Tabla */
+/* --- TABLA --- */
 .table-container {
     background-color: white;
     border-radius: 8px;
@@ -231,19 +153,39 @@ body {
     margin-bottom: 2rem;
     border: 1px solid #E5E7EB;
 }
-
 .table-responsive { width: 100%; overflow-x: auto; }
 .appointments-table { width: 100%; border-collapse: collapse; min-width: 800px; }
-.appointments-table th, .appointments-table td { padding: 1rem 1.5rem; text-align: left; border-bottom: 1px solid #E5E7EB; }
+.appointments-table th, .appointments-table td { padding: 1rem 1.5rem; text-align: left; border-bottom: 1px solid #E5E7EB; vertical-align: middle; }
 .appointments-table th { background-color: #F9FAFB; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; color: #4B5563; }
 
-/* Status Badges */
-.status-badge { padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
-.status-scheduled { background-color: #EFF6FF; color: #1D4ED8; }
-.status-completed { background-color: #ECFDF5; color: #047857; }
-.status-cancelled { background-color: #FEF2F2; color: #B91C1C; }
+/* --- STATUS SELECT (INTERACTIVO) --- */
+/* Estilo base del select para parecer un badge */
+.status-select {
+    padding: 0.35rem 2rem 0.35rem 1rem; /* Espacio extra derecha para la flecha */
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+    cursor: pointer;
+    outline: none;
+    appearance: none; /* Quitamos flecha por defecto de navegadores */
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+    background-size: 0.65em auto;
+    transition: all 0.2s;
+    min-width: 140px;
+}
 
-/* Botones Tabla */
+/* Variantes de color según el estado */
+.status-scheduled { background-color: #EFF6FF; color: #1D4ED8; border-color: #BFDBFE; }
+.status-completed { background-color: #ECFDF5; color: #047857; border-color: #A7F3D0; }
+.status-cancelled { background-color: #FEF2F2; color: #B91C1C; border-color: #FECACA; }
+
+/* Efecto hover */
+.status-select:hover { filter: brightness(0.95); }
+
+/* Botones Acción */
 .action-btn { padding: 0.35rem 0.75rem; border-radius: 6px; border: 1px solid #D1D5DB; background: white; cursor: pointer; font-size: 0.85rem; margin-right: 0.5rem; }
 .btn-edit:hover { color: #2563EB; border-color: #2563EB; }
 .btn-delete:hover { color: #EF4444; border-color: #EF4444; }
@@ -251,63 +193,20 @@ body {
 .empty-state { padding: 3rem; text-align: center; color: #6B7280; }
 .hidden { display: none !important; }
 
-/* =========================================
-   3. RESPONSIVE (MÓVIL)
-   ========================================= */
+/* --- RESPONSIVE --- */
 @media (max-width: 768px) {
-    /* Transformar Sidebar en Barra Inferior */
-    .sidebar {
-        width: 100%;
-        height: 60px;
-        top: auto;
-        bottom: 0;
-        flex-direction: row;
-        border-right: none;
-        border-top: 1px solid #E5E7EB;
-        justify-content: space-around;
-        padding: 0;
-    }
-
-    .sidebar-header, .sidebar-footer { display: none; } 
-
-    .sidebar-nav {
-        flex-direction: row;
-        padding: 0;
-        gap: 0;
-        width: 100%;
-    }
-
-    .nav-link {
-        flex: 1;
-        flex-direction: column;
-        justify-content: center;
-        padding: 0.5rem;
-        font-size: 0.7rem;
-        border-radius: 0;
-        gap: 0.25rem;
-    }
-
+    .sidebar { width: 100%; height: 60px; top: auto; bottom: 0; flex-direction: row; border-right: none; border-top: 1px solid #E5E7EB; justify-content: space-around; padding: 0; }
+    .sidebar-header, .sidebar-footer { display: none; }
+    .sidebar-nav { flex-direction: row; padding: 0; gap: 0; width: 100%; }
+    .nav-link { flex: 1; flex-direction: column; justify-content: center; padding: 0.5rem; font-size: 0.7rem; border-radius: 0; gap: 0.25rem; }
     .nav-icon { font-size: 1.4rem; }
-
-    /* Ajustar contenido */
-    .main-content {
-        margin-left: 0;
-        width: 100%;
-        margin-bottom: 60px; /* Espacio para barra inferior */
-    }
-
-    .top-bar {
-        justify-content: space-between;
-        padding: 0 1rem;
-    }
-
+    .main-content { margin-left: 0; width: 100%; margin-bottom: 60px; }
+    .top-bar { justify-content: space-between; padding: 0 1rem; }
     .mobile-logo { display: block; font-weight: 700; color: var(--color-primary, #2563EB); }
-
     .actions-bar, .filters-group { flex-direction: column; }
     .action-buttons { width: 100%; justify-content: space-between; }
     .btn-primary { flex: 1; }
 }
-
 @media (min-width: 769px) {
     .mobile-logo { display: none; }
     .filters-group { flex-direction: row; flex: 1; margin-right: 2rem; }

@@ -11,12 +11,10 @@ router.get('/', (req, res) => {
     res.redirect('/login');
 });
 
-// Ruta para registrar pacientes (Historia CD-0003-001)
 // Acceso: http://localhost:3000/patients/new
 router.get('/patients/new', viewController.getCreatePatientView);
 
-// Ruta del Dashboard Principal (Historia CD-0006-001)
 // Acceso: http://localhost:3000/dashboard
 router.get('/dashboard', viewController.getDashboardView);
-
+router.get('/appointments/new', viewController.getCreateAppointmentView);
 module.exports = router;

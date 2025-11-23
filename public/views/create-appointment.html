@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Cita - DentalSoft</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/dashboard.css"> <link rel="stylesheet" href="/css/create-appointment.css">
+</head>
+<body>
+
+    <div id="app-content">
+        
+        <header style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h1 style="color: var(--color-text-main);">Agendar Cita</h1>
+                <p style="color: var(--color-text-muted);">Programe una nueva consulta dental.</p>
+            </div>
+            <a href="/dashboard" class="text-link" style="font-size: 0.9rem;">&larr; Volver a la Agenda</a>
+        </header>
+
+        <div id="alert-box" class="alert hidden"></div>
+
+        <div class="form-card">
+            <form id="createAppointmentForm" class="appointment-grid">
+                
+                <div class="form-group full-width">
+                    <label for="patientSelect" class="input-label">Paciente <span class="required">*</span></label>
+                    <select id="patientSelect" class="form-select" required>
+                        <option value="">Cargando pacientes...</option>
+                    </select>
+                    <small style="color: #6B7280; font-size: 0.8rem;">
+                        ¿No encuentra al paciente? <a href="/patients/new" class="text-link">Regístrelo aquí</a>.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label for="appointmentDate" class="input-label">Fecha <span class="required">*</span></label>
+                    <input type="date" id="appointmentDate" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="appointmentTime" class="input-label">Hora <span class="required">*</span></label>
+                    <input type="time" id="appointmentTime" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="appointmentType" class="input-label">Tipo de Consulta <span class="required">*</span></label>
+                    <select id="appointmentType" class="form-select" required>
+                        <option value="Consulta General">Consulta General</option>
+                        <option value="Limpieza">Limpieza Dental</option>
+                        <option value="Ortodoncia">Ortodoncia (Ajuste)</option>
+                        <option value="Extracción">Extracción</option>
+                        <option value="Blanqueamiento">Blanqueamiento</option>
+                        <option value="Emergencia">Emergencia / Dolor</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="duration" class="input-label">Duración (minutos)</label>
+                    <select id="duration" class="form-select">
+                        <option value="30">30 min</option>
+                        <option value="45">45 min</option>
+                        <option value="60" selected>60 min (1 hr)</option>
+                        <option value="90">90 min (1.5 hrs)</option>
+                        <option value="120">120 min (2 hrs)</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="notes" class="input-label">Notas / Motivo de consulta</label>
+                    <textarea id="notes" class="form-textarea" placeholder="Detalles adicionales..."></textarea>
+                </div>
+
+                <div class="form-actions full-width">
+                    <button type="button" id="btn-cancel" class="btn-secondary">Cancelar</button>
+                    <button type="submit" id="btn-save" class="btn-primary">Confirmar Cita</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <script src="/js/layout.js"></script>
+    <script src="/js/create-appointment.js"></script>
+</body>
+</html>
