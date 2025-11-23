@@ -1,10 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Verificación de Seguridad (Fail-safe)
-    // Aunque layout.js ya valida, esto evita que se ejecuten scripts si no hay token
+    // 1. Verificación de Seguridad
     const token = localStorage.getItem('token');
-    if (!token) return;
+    if (!token) return; // Layout.js redirigirá si falla
 
-    // 2. Referencias a elementos del DOM
+    // 2. Referencias DOM
     const tableBody = document.getElementById('appointments-body');
     const emptyState = document.getElementById('empty-state');
     const alertBox = document.getElementById('dashboard-alert');
@@ -13,26 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnRefresh = document.getElementById('btn-refresh');
     const btnNewAppointment = document.getElementById('btn-new-appointment');
 
-    // Estado local para almacenar las citas y poder filtrar por texto sin recargar
     let allAppointments = [];
 
-    // --- FUNCIONES PRINCIPALES ---
-
-    /**
-     * Carga las citas desde el servidor
-     * @param {string|null} date - Fecha en formato YYYY-MM-DD para filtrar (opcional)
-     */
+    // --- CARGA DE DATOS ---
     async function loadAppointments(date = null) {
         try {
-            // Animación de carga visual (opcional, podrías poner un spinner aquí)
-            tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 2rem;">Cargando datos...</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 2rem; color: #6B7280;">Cargando datos...</td></tr>';
 
             let url = '/api/appointments';
-            
-            // Si hay fecha seleccionada, usamos el endpoint de filtrado por fecha
-            if (date) {
-                url = `/api/appointments/date?date=${date}`;
-            }
+            if (date) url = `/api/appointments/date?date=${date}`;
 
             const response = await fetch(url, {
                 method: 'GET',
@@ -42,194 +30,162 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            if (!response.ok) {
-                if (response.status === 401) {
-                    // Si el token expiró, layout.js lo manejará, pero forzamos por si acaso
-                    window.location.href = '/login';
-                    return;
-                }
-                throw new Error('Error al obtener la lista de citas');
-            }
+            if (!response.ok) throw new Error('Error al obtener citas');
 
             const result = await response.json();
             allAppointments = result.data || [];
-            
-            // Renderizamos la tabla con los datos obtenidos
             renderTable(allAppointments);
 
         } catch (error) {
             console.error(error);
-            showAlert('No se pudieron cargar las citas. Intente nuevamente.', 'error');
-            tableBody.innerHTML = ''; // Limpiar mensaje de carga
+            showAlert('Error al conectar con el servidor', 'error');
+            tableBody.innerHTML = '';
         }
     }
 
-    /**
-     * Genera el HTML de la tabla basado en los datos
-     * @param {Array} appointments - Lista de objetos cita
-     */
+    // --- RENDERIZADO (CON SELECT DE ESTADO) ---
     function renderTable(appointments) {
         tableBody.innerHTML = '';
         
-        // 1. Filtrado local por texto (Búsqueda por nombre de paciente)
+        // Filtrado Local
         const searchTerm = filterSearch.value.toLowerCase().trim();
-        
         const filtered = appointments.filter(app => {
-            // Construimos el nombre completo si existe la info del paciente
-            const patientName = app.patient_info 
+            const pName = app.patient_info 
                 ? `${app.patient_info.first_name} ${app.patient_info.last_name}`.toLowerCase() 
                 : '';
-            
-            // Verificamos si el nombre incluye el término de búsqueda
-            return patientName.includes(searchTerm);
+            return pName.includes(searchTerm);
         });
 
-        // 2. Manejo de estado vacío
         if (filtered.length === 0) {
             emptyState.classList.remove('hidden');
             return;
         }
-
         emptyState.classList.add('hidden');
 
-        // 3. Generación de filas
         filtered.forEach(app => {
-            // Formatear fecha (Ajuste simple de zona horaria para visualización correcta)
+            // Fecha formato local
             const dateObj = new Date(app.appointment_date);
-            // Usamos UTC para evitar que la fecha se atrase un día por la zona horaria local
             const dateStr = dateObj.toLocaleDateString('es-MX', { timeZone: 'UTC' });
             
-            // Nombre del paciente o fallback
-            const patientName = app.patient_info 
+            const pName = app.patient_info 
                 ? `${app.patient_info.first_name} ${app.patient_info.last_name}` 
-                : '<span style="color:red;">Sin Paciente</span>';
+                : '<span style="color:red">Sin Paciente</span>';
 
-            // Clases y Textos de Estado
-            const statusMap = {
-                'scheduled': { text: 'Programada', class: 'status-scheduled' },
-                'completed': { text: 'Completada', class: 'status-completed' },
-                'cancelled': { text: 'Cancelada', class: 'status-cancelled' }
-            };
+            // Determinar clase de color según el estado actual
+            const currentStatus = app.status || 'scheduled';
+            const statusClass = `status-${currentStatus}`;
 
-            const statusInfo = statusMap[app.status] || { text: app.status, class: 'status-scheduled' };
-
-            // Creación de la fila
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${dateStr}</td>
                 <td>${app.appointment_time}</td>
-                <td><strong>${patientName}</strong></td>
-                <td>${app.type || 'Consulta General'}</td>
-                <td><span class="status-badge ${statusInfo.class}">${statusInfo.text}</span></td>
+                <td><strong>${pName}</strong></td>
+                <td>${app.type || 'General'}</td>
+                <td>
+                    <select 
+                        class="status-select ${statusClass}" 
+                        onchange="changeStatus(${app.id}, this)"
+                    >
+                        <option value="scheduled" ${currentStatus === 'scheduled' ? 'selected' : ''}>Programada</option>
+                        <option value="completed" ${currentStatus === 'completed' ? 'selected' : ''}>Completada</option>
+                        <option value="cancelled" ${currentStatus === 'cancelled' ? 'selected' : ''}>Cancelada</option>
+                    </select>
+                </td>
                 <td style="text-align: right; white-space: nowrap;">
-                    <button class="action-btn btn-edit" onclick="editAppointment(${app.id})">
-                        Editar
-                    </button>
-                    <button class="action-btn btn-delete" style="margin-right: 0;" onclick="deleteAppointment(${app.id})">
-                        Eliminar
-                    </button>
+                    <button class="action-btn btn-edit" onclick="editAppointment(${app.id})">Editar</button>
+                    <button class="action-btn btn-delete" style="margin-right:0;" onclick="deleteAppointment(${app.id})">Eliminar</button>
                 </td>
             `;
             tableBody.appendChild(row);
         });
     }
 
-    // --- ACCIONES GLOBALES (Expuestas a window para el onclick del HTML) ---
+    // --- ACCIONES GLOBALES (Expuestas a window) ---
 
     /**
-     * Eliminar una cita
-     * @param {number} id - ID de la cita
+     * CAMBIAR ESTADO DE CITA (CD-0007-001)
+     * Se dispara al cambiar el select en la tabla
      */
-    window.deleteAppointment = async (id) => {
-        if (!confirm('¿Estás seguro de que deseas eliminar esta cita permanentemente?')) return;
+    window.changeStatus = async (id, selectElement) => {
+        const newStatus = selectElement.value;
+        const originalStatus = selectElement.getAttribute('data-prev') || 'scheduled'; // Fallback visual
+
+        // Feedback visual inmediato: Cambiar color del select
+        selectElement.className = `status-select status-${newStatus}`;
+        selectElement.disabled = true; // Bloquear mientras guarda
 
         try {
-            const response = await fetch(`/api/appointments/${id}`, {
-                method: 'DELETE',
-                headers: { 
-                    'Authorization': `Bearer ${token}` 
-                }
+            const response = await fetch(`/api/appointments/${id}/status`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ status: newStatus })
             });
 
-            if (response.ok) {
-                showAlert('Cita eliminada correctamente', 'success');
-                // Recargar datos manteniendo el filtro de fecha actual si existe
-                loadAppointments(filterDate.value || null);
-            } else {
-                const data = await response.json();
-                throw new Error(data.message || 'Error al eliminar');
-            }
+            if (!response.ok) throw new Error('Error al actualizar');
+
+            showAlert(`Estado actualizado a: ${translateStatus(newStatus)}`, 'success');
+            
+            // Actualizar dato en memoria local para filtros sin recargar
+            const appIndex = allAppointments.findIndex(a => a.id === id);
+            if (appIndex !== -1) allAppointments[appIndex].status = newStatus;
+
         } catch (error) {
             console.error(error);
-            showAlert('Error al eliminar la cita: ' + error.message, 'error');
+            showAlert('No se pudo cambiar el estado', 'error');
+            // Revertir visualmente si falla
+            selectElement.value = originalStatus; // (Necesitaríamos guardar el previo, simplificado aquí recargando)
+            loadAppointments(filterDate.value); // Recarga segura
+        } finally {
+            selectElement.disabled = false;
         }
     };
 
-    /**
-     * Redirigir a editar cita (Placeholder por ahora)
-     * @param {number} id - ID de la cita
-     */
-    window.editAppointment = (id) => {
-        // En el futuro, esto redirigirá a una vista de edición
-        alert(`Funcionalidad de editar para ID ${id} en construcción.`);
-        // window.location.href = `/appointments/edit/${id}`;
+    window.deleteAppointment = async (id) => {
+        if (!confirm('¿Eliminar esta cita permanentemente?')) return;
+        try {
+            const res = await fetch(`/api/appointments/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                showAlert('Cita eliminada', 'success');
+                loadAppointments(filterDate.value);
+            } else throw new Error();
+        } catch (e) { showAlert('Error al eliminar', 'error'); }
     };
 
+    window.editAppointment = (id) => alert(`Editar cita ${id}: Próximamente`);
+
     // --- EVENT LISTENERS ---
+    if(filterDate) filterDate.addEventListener('change', (e) => loadAppointments(e.target.value));
+    if(filterSearch) filterSearch.addEventListener('keyup', () => renderTable(allAppointments));
+    
+    if(btnRefresh) btnRefresh.addEventListener('click', () => {
+        filterDate.value = '';
+        filterSearch.value = '';
+        loadAppointments();
+    });
 
-    // 1. Filtro de Fecha: Recarga datos desde la API
-    if (filterDate) {
-        filterDate.addEventListener('change', (e) => {
-            loadAppointments(e.target.value);
-        });
-    }
-
-    // 2. Filtro de Búsqueda: Filtra localmente los datos ya cargados
-    if (filterSearch) {
-        filterSearch.addEventListener('keyup', () => {
-            renderTable(allAppointments);
-        });
-    }
-
-    // 3. Botón Refrescar: Limpia filtros y recarga todo
-    if (btnRefresh) {
-        btnRefresh.addEventListener('click', () => {
-            filterDate.value = '';
-            filterSearch.value = '';
-            loadAppointments();
-        });
-    }
-
-    // 4. Botón Nueva Cita: Redirige a la vista de creación
-    if (btnNewAppointment) {
-        btnNewAppointment.addEventListener('click', () => {
-            // Esta ruta debe coincidir con la que crearemos próximamente
-            window.location.href = '/appointments/new'; 
-        });
-    }
+    if(btnNewAppointment) btnNewAppointment.addEventListener('click', () => {
+        window.location.href = '/appointments/new'; 
+    });
 
     // --- UTILIDADES ---
-
-    /**
-     * Muestra una alerta flotante
-     * @param {string} msg - Mensaje a mostrar
-     * @param {string} type - 'success' o 'error'
-     */
-    function showAlert(msg, type) {
-        if (!alertBox) return;
-        
-        alertBox.textContent = msg;
-        // Reseteamos clases y añadimos las nuevas
-        alertBox.className = `alert alert-${type}`; 
-        alertBox.classList.remove('hidden');
-        
-        // Ocultar automáticamente después de 3 segundos
-        setTimeout(() => {
-            alertBox.classList.add('hidden');
-        }, 3000);
+    function translateStatus(status) {
+        const dict = { 'scheduled': 'Programada', 'completed': 'Completada', 'cancelled': 'Cancelada' };
+        return dict[status] || status;
     }
 
-    // --- INICIALIZACIÓN ---
-    // Cargar citas al abrir la página
+    function showAlert(msg, type) {
+        alertBox.textContent = msg;
+        alertBox.className = `alert alert-${type}`;
+        alertBox.classList.remove('hidden');
+        setTimeout(() => alertBox.classList.add('hidden'), 3000);
+    }
+
+    // Inicializar
     loadAppointments();
 });

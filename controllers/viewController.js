@@ -26,9 +26,18 @@ const getDashboardView = (req, res) => {
     res.sendFile(path.join(__dirname, '../public/views/dashboard.html'));
 };
 
+/**
+ * Sirve la vista de Crear Cita
+ * GET /appointments/new
+ */
+const getCreateAppointmentView = (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/views/create-appointment.html'));
+};
+
 module.exports = {
     getLoginView,
     getRegisterView,
     getCreatePatientView,
-    getDashboardView
+    getDashboardView,
+    getCreateAppointmentView
 };
