@@ -11,4 +11,8 @@ router.get('/', (req, res) => {
     res.redirect('/login');
 });
 
+// Ruta para registrar pacientes (Historia CD-0003-001)
+// Acceso: http://localhost:3000/patients/new
+router.get('/patients/new', viewController.getCreatePatientView);
+
 module.exports = router;

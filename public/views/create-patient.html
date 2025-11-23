@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Paciente - DentalSoft</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/patients.css">
+</head>
+<body>
+    <main class="patient-container">
+        <header class="patient-header">
+            <h2>Nuevo Paciente</h2>
+            <a href="/dashboard" class="text-link" style="font-size: 0.9rem;">&larr; Volver al Dashboard</a>
+        </header>
+
+        <div id="alert-box" class="alert alert-error hidden"></div>
+        <div id="success-box" class="alert alert-success hidden"></div>
+
+        <form id="createPatientForm" class="patient-form-grid">
+            
+            <div class="form-group">
+                <label for="first_name" class="input-label">Nombre <span class="required-mark">*</span></label>
+                <input type="text" id="first_name" name="first_name" class="form-input" placeholder="Ej. Juan" required>
+            </div>
+
+            <div class="form-group">
+                <label for="last_name" class="input-label">Apellidos <span class="required-mark">*</span></label>
+                <input type="text" id="last_name" name="last_name" class="form-input" placeholder="Ej. Pérez" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="input-label">Correo Electrónico <span class="required-mark">*</span></label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="juan.perez@email.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone" class="input-label">Teléfono <span class="required-mark">*</span></label>
+                <input type="tel" id="phone" name="phone" class="form-input" placeholder="(555) 123-4567" required>
+            </div>
+
+            <div class="form-group">
+                <label for="birth_date" class="input-label">Fecha de Nacimiento <span class="required-mark">*</span></label>
+                <input type="date" id="birth_date" name="birth_date" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="insurance" class="input-label">Seguro Médico / Póliza</label>
+                <input type="text" id="insurance" name="insurance" class="form-input" placeholder="Ej. GNP Seguros - 12345">
+            </div>
+
+            <div class="form-group full-width">
+                <label for="address" class="input-label">Dirección Completa <span class="required-mark">*</span></label>
+                <input type="text" id="address" name="address" class="form-input" placeholder="Calle, Número, Colonia, Ciudad" required>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" id="btn-cancel" class="btn-secondary">Cancelar</button>
+                <button type="submit" id="btn-save" class="btn-primary" style="width: auto; min-width: 150px;">
+                    Guardar Paciente
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <script src="/js/create-patient.js"></script>
+</body>
+</html>
