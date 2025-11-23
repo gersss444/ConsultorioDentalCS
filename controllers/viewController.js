@@ -10,7 +10,16 @@ const getRegisterView = (req, res) => {
     res.sendFile(path.join(__dirname, '../public/views/register.html'));
 };
 
+/**
+ * Sirve la vista de Crear Paciente
+ * GET /patients/new
+ */
+const getCreatePatientView = (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/views/create-patient.html'));
+};
+
 module.exports = {
     getLoginView,
-    getRegisterView
+    getRegisterView,
+    getCreatePatientView
 };

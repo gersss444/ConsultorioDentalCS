@@ -1,0 +1,146 @@
+/* MOBILE FIRST: 
+   Por defecto, escribimos el código para pantallas pequeñas (celulares).
+*/
+
+body {
+    padding: 1rem; /* Espacio alrededor en móviles */
+}
+
+.patient-container {
+    background-color: var(--color-bg-card);
+    padding: 1.5rem; /* Padding más pequeño en móvil */
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    
+    width: 100%; 
+    margin: 0 auto; /* Centrar horizontalmente */
+    
+    /* En móvil ocupa todo el ancho disponible */
+    max-width: 100%; 
+}
+
+.patient-header {
+    border-bottom: 1px solid #E5E7EB;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    
+    /* En móvil, apilar título y enlace */
+    display: flex;
+    flex-direction: column; 
+    gap: 0.5rem;
+}
+
+.patient-header h2 {
+    color: var(--color-primary);
+    font-size: 1.25rem;
+}
+
+/* --- GRID SYSTEM --- */
+.patient-form-grid {
+    display: grid;
+    /* 1 Columna en Móvil */
+    grid-template-columns: 1fr; 
+    gap: 1rem;
+}
+
+/* Estilos de Inputs Específicos para este formulario */
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-label {
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+    color: #374151;
+    font-weight: 600;
+}
+
+.form-input {
+    padding: 0.75rem;
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    font-size: 1rem;
+    width: 100%; /* Asegura que no se desborde */
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Botones */
+.form-actions {
+    display: flex;
+    flex-direction: column-reverse; /* En móvil, "Cancelar" va abajo */
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.btn-primary, .btn-secondary {
+    width: 100%; /* Botones anchos en móvil para fácil toque */
+    padding: 0.875rem;
+    border-radius: 6px;
+    font-weight: 600;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #E5E7EB;
+    color: #374151;
+}
+
+/* --- MEDIA QUERIES (LAPTOP Y TABLET) --- */
+/* Se activa cuando la pantalla es mayor a 768px (Tablets y Laptops) */
+@media (min-width: 768px) {
+    
+    body {
+        padding: 2rem;
+    }
+
+    .patient-container {
+        padding: 2.5rem;
+        max-width: 900px; /* Limitamos el ancho máximo en pantallas grandes */
+    }
+
+    .patient-header {
+        flex-direction: row; /* Título a la izq, enlace a la der */
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .patient-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .patient-form-grid {
+        /* 2 Columnas en Desktop */
+        grid-template-columns: 1fr 1fr; 
+        gap: 1.5rem;
+    }
+
+    /* Clases utilitarias para el Grid */
+    .full-width {
+        grid-column: 1 / -1; /* Ocupar las 2 columnas */
+    }
+
+    .form-actions {
+        grid-column: 1 / -1;
+        flex-direction: row; /* Botones lado a lado */
+        justify-content: flex-end; /* A la derecha */
+    }
+
+    .btn-primary, .btn-secondary {
+        width: auto; /* Botones tamaño natural */
+        min-width: 150px;
+    }
+}

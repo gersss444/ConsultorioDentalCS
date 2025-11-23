@@ -38,10 +38,8 @@ body {
     background-color: var(--color-bg-body);
     color: var(--color-text-main);
     line-height: 1.5;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
 }
 
 /* Utilidad para ocultar elementos visualmente */

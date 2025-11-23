@@ -1,3 +1,13 @@
+/* --- LAYOUT ESPECÍFICO PARA AUTH --- */
+/* Esto centra el contenido vertical y horizontalmente SOLO en login/registro */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem; /* Margen para que no pegue a los bordes en celular */
+}
+
 /* --- CONFIGURACIÓN DE LA TARJETA --- */
 .login-card {
     background-color: #FFFFFF;
