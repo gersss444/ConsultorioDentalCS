@@ -15,4 +15,8 @@ router.get('/', (req, res) => {
 // Acceso: http://localhost:3000/patients/new
 router.get('/patients/new', viewController.getCreatePatientView);
 
+// Ruta del Dashboard Principal (Historia CD-0006-001)
+// Acceso: http://localhost:3000/dashboard
+router.get('/dashboard', viewController.getDashboardView);
+
 module.exports = router;

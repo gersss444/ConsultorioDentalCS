@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - DentalSoft</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+
+    <div id="app-content">
+        
+        <header style="margin-bottom: 2rem;">
+            <h1 style="color: var(--color-text-main);">Agenda de Citas</h1>
+            <p style="color: var(--color-text-muted);">Administración del consultorio</p>
+        </header>
+
+        <section class="actions-bar">
+            <div class="filters-group">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label for="filter-date" class="input-label">Filtrar por Fecha</label>
+                    <input type="date" id="filter-date" class="form-input">
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 0; flex: 1;">
+                    <label for="filter-search" class="input-label">Buscar Paciente</label>
+                    <input type="text" id="filter-search" class="form-input" placeholder="Nombre o apellido...">
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button id="btn-refresh" class="btn-icon" title="Recargar tabla">
+                    &#8635;
+                </button>
+                <button id="btn-new-appointment" class="btn-primary">
+                    + Nueva Cita
+                </button>
+            </div>
+        </section>
+
+        <div id="dashboard-alert" class="alert hidden"></div>
+
+        <section class="table-container">
+            <div class="table-responsive">
+                <table class="appointments-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Paciente</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                            <th style="text-align: right;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="appointments-body">
+                        </tbody>
+                </table>
+            </div>
+            <div id="empty-state" class="empty-state hidden">
+                <p>No se encontraron citas.</p>
+            </div>
+        </section>
+
+    </div> <script src="/js/layout.js"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>

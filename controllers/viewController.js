@@ -18,8 +18,17 @@ const getCreatePatientView = (req, res) => {
     res.sendFile(path.join(__dirname, '../public/views/create-patient.html'));
 };
 
+/**
+ * Sirve la vista del Dashboard Principal
+ * GET /dashboard
+ */
+const getDashboardView = (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/views/dashboard.html'));
+};
+
 module.exports = {
     getLoginView,
     getRegisterView,
-    getCreatePatientView
+    getCreatePatientView,
+    getDashboardView
 };
