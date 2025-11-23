@@ -1,0 +1,87 @@
+:root {
+    /* --- PALETA DE COLORES --- */
+    /* Primary: Azul Real - Confianza y Profesionalismo */
+    --color-primary: #2563EB;
+    --color-primary-dark: #1E40AF;
+    
+    /* Accent: Menta/Turquesa - Higiene y Salud */
+    --color-accent: #0D9488;
+    --color-accent-hover: #0F766E;
+    
+    /* Fondos */
+    --color-bg-body: #F3F4F6;
+    --color-bg-card: #FFFFFF;
+    
+    /* Texto */
+    --color-text-main: #1F2937;
+    --color-text-muted: #6B7280;
+    --color-text-inverse: #FFFFFF;
+    
+    /* Estados */
+    --color-error: #EF4444;
+    --color-success: #10B981;
+    
+    /* UI Utils */
+    --border-radius: 8px;
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--color-bg-body);
+    color: var(--color-text-main);
+    line-height: 1.5;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Utilidad para ocultar elementos visualmente */
+.hidden {
+    display: none !important;
+}
+
+/* Estilos de Inputs Generales */
+input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #D1D5DB;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Estilos de Botones Generales */
+.btn {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--color-accent);
+    color: var(--color-text-inverse);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-accent-hover);
+}

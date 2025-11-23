@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso - DentalSoft</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body>
+
+    <main class="login-card">
+        <header class="login-header">
+            <h1>DentalSoft</h1>
+            <p>Bienvenido de nuevo</p>
+        </header>
+
+        <div id="alert-box" class="error-msg"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email" style="display:none;">Correo Electrónico</label>
+                <input type="email" id="email" class="form-input" placeholder="nombre@ejemplo.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password" style="display:none;">Contraseña</label>
+                <input type="password" id="password" class="form-input" placeholder="Tu contraseña" required>
+            </div>
+
+            <button type="submit" id="btn-login" class="btn-primary">
+                Ingresar
+            </button>
+        </form>
+        
+        <div style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: #6B7280;">
+            ¿No tienes cuenta? 
+            <span id="link-to-register" class="text-link">Regístrate aquí</span>
+        </div>
+    </main>
+
+    <script src="/js/login.js"></script>
+</body>
+</html>

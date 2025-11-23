@@ -1,0 +1,103 @@
+/* --- CONFIGURACIÓN DE LA TARJETA --- */
+.login-card {
+    background-color: #FFFFFF;
+    padding: 2.5rem;
+    border-radius: 12px; /* Bordes más redondeados */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto; /* Centrado horizontal */
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-header h1 {
+    color: #2563EB; /* Azul Royal */
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-family: sans-serif;
+}
+
+.login-header p {
+    color: #6B7280; /* Gris suave */
+    font-size: 0.95rem;
+}
+
+/* --- FORMULARIO E INPUTS --- */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+/* Estilo explícito para los inputs */
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #D1D5DB;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #1F2937;
+    background-color: #F9FAFB;
+    transition: all 0.2s ease-in-out;
+    outline: none;
+    box-sizing: border-box; /* IMPORTANTE: Para que el padding no rompa el ancho */
+}
+
+.form-input:focus {
+    border-color: #2563EB;
+    background-color: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* --- BOTÓN PRINCIPAL (EL QUE FALLABA) --- */
+.btn-primary {
+    display: block;
+    width: 100%;
+    padding: 0.875rem;
+    background-color: #0D9488; /* Verde Menta / Teal */
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-align: center;
+}
+
+.btn-primary:hover {
+    background-color: #0F766E; /* Un tono más oscuro al pasar el mouse */
+}
+
+.btn-primary:disabled {
+    background-color: #9CA3AF;
+    cursor: not-allowed;
+}
+
+/* --- MENSAJES Y ENLACES --- */
+.error-msg {
+    color: #991B1B;
+    background-color: #FEE2E2;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    text-align: center;
+    border: 1px solid #F87171;
+    display: none;
+}
+
+.text-link {
+    color: #2563EB;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.text-link:hover {
+    color: #1E40AF;
+    text-decoration: underline;
+}
