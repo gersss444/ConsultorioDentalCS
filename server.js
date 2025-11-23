@@ -2,6 +2,7 @@
 // Configura la aplicación, rutas y middlewares del backend
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 // Importar módulo de conexión a la base de datos MongoDB
@@ -13,6 +14,9 @@ const authRoutes = require('./routes/auth');
 // Importar middleware para manejar errores globalmente
 const errorHandler = require('./middlewares/errorHandler');
 
+// [NUEVO] Importar rutas de vistas (Frontend)
+const viewRoutes = require('./routes/viewRoutes');
+
 // Crear aplicación Express
 const app = express();
 
@@ -20,6 +24,9 @@ const app = express();
 app.use(cors()); // Habilita CORS para permitir peticiones desde el frontend
 app.use(express.json()); // Parsea JSON en el body de las peticiones
 app.use(express.urlencoded({ extended: true })); // Parsea datos URL-encoded
+
+// Esto permite que el navegador acceda a todo lo que esté en la carpeta "public"
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Endpoint de verificación de salud (health check)
 // No requiere autenticación, se usa para verificar que el servidor esté funcionando
@@ -30,6 +37,9 @@ app.get('/health', (req, res) => {
         timestamp: new Date().toISOString()
     });
 });
+
+// Estas rutas devuelven el HTML al usuario
+app.use('/', viewRoutes);
 
 // Configuración de rutas del API
 // Las rutas de autenticación no requieren JWT
