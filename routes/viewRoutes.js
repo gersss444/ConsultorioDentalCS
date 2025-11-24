@@ -17,4 +17,6 @@ router.get('/patients/new', viewController.getCreatePatientView);
 // Acceso: http://localhost:3000/dashboard
 router.get('/dashboard', viewController.getDashboardView);
 router.get('/appointments/new', viewController.getCreateAppointmentView);
+// Ruta para listar pacientes
+router.get('/patients', viewController.getPatientsView);
 module.exports = router;

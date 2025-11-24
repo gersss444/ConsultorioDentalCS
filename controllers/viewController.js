@@ -34,10 +34,19 @@ const getCreateAppointmentView = (req, res) => {
     res.sendFile(path.join(__dirname, '../public/views/create-appointment.html'));
 };
 
+/**
+ * Sirve la vista de Lista de Pacientes
+ * GET /patients
+ */
+const getPatientsView = (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/views/patients.html'));
+};
+
 module.exports = {
     getLoginView,
     getRegisterView,
     getCreatePatientView,
     getDashboardView,
-    getCreateAppointmentView
+    getCreateAppointmentView,
+    getPatientsView
 };
