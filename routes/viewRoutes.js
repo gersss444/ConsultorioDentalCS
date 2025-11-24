@@ -19,4 +19,5 @@ router.get('/dashboard', viewController.getDashboardView);
 router.get('/appointments/new', viewController.getCreateAppointmentView);
 // Ruta para listar pacientes
 router.get('/patients', viewController.getPatientsView);
+router.get('/dental-records/new', viewController.getCreateDentalRecordView);
 module.exports = router;

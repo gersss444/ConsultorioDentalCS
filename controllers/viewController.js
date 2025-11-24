@@ -42,11 +42,20 @@ const getPatientsView = (req, res) => {
     res.sendFile(path.join(__dirname, '../public/views/patients.html'));
 };
 
+/**
+ * Sirve la vista de Crear Registro Dental (Historial Clínico)
+ * GET /dental-records/new
+ */
+const getCreateDentalRecordView = (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/views/create-dental-record.html'));
+};
+
 module.exports = {
     getLoginView,
     getRegisterView,
     getCreatePatientView,
     getDashboardView,
     getCreateAppointmentView,
-    getPatientsView
+    getPatientsView,
+    getCreateDentalRecordView
 };
