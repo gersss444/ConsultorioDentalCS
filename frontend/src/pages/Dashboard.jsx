@@ -190,28 +190,28 @@ const Dashboard = () => {
   // Calcula los ingresos mensuales desde los registros dentales
   // Suma el costo de los tratamientos pagados de los últimos 6 meses
   const getMonthlyRevenue = () => {
-    const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'];
+    const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
     const currentDate = new Date();
     const last6Months = [];
     const revenue = new Array(6).fill(0);
 
-    // Obtener últimos 6 meses
+    // Obtener últimos 6 meses (del más antiguo al más reciente)
     for (let i = 5; i >= 0; i--) {
       const date = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
       last6Months.push(months[date.getMonth()]);
     }
 
     // Calcular ingresos por mes desde registros con tratamiento pagado
-    recordsData.forEach(record => {
-      if (record.treatment_cost && record.payment_status === 'paid') {
+    recordsData?.forEach((record) => {
+      if (record.treatment_cost > 0 && record.payment_status === 'paid') {
         const recordDate = record.created_at ? new Date(record.created_at) : new Date();
-        const monthsDiff = (currentDate.getFullYear() - recordDate.getFullYear()) * 12 + 
+        const monthsDiff = (currentDate.getFullYear() - recordDate.getFullYear()) * 12 +
                           (currentDate.getMonth() - recordDate.getMonth());
-        
+
         if (monthsDiff >= 0 && monthsDiff < 6) {
           const index = 5 - monthsDiff;
           if (index >= 0 && index < 6) {
-            revenue[index] += record.treatment_cost || 0;
+            revenue[index] += parseFloat(record.treatment_cost) || 0;
           }
         }
       }

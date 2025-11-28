@@ -153,30 +153,33 @@ const Appointments = () => {
 
       {error && <div className="error-message">{error}</div>}
 
-      <div style={{ marginBottom: '1rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+      <div style={{ marginBottom: '1rem', display: 'flex', gap: '0.25rem', alignItems: 'center', flexWrap: 'wrap' }}>
         <button
           className={view === 'list' ? 'btn-primary' : 'btn-secondary'}
           onClick={() => setView('list')}
-          style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
+          style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '6px 12px', fontSize: '13px' }}
+          title="Vista de lista"
         >
-          <List size={16} />
-          Lista
+          <List size={14} />
+          <span className="btn-text">Lista</span>
         </button>
         <button
           className={view === 'calendar' ? 'btn-primary' : 'btn-secondary'}
           onClick={() => setView('calendar')}
-          style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
+          style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '6px 12px', fontSize: '13px' }}
+          title="Vista de calendario"
         >
-          <Calendar size={16} />
-          Calendario
+          <Calendar size={14} />
+          <span className="btn-text">Calendario</span>
         </button>
         <button
           className={view === 'day' ? 'btn-primary' : 'btn-secondary'}
           onClick={() => setView('day')}
-          style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
+          style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '6px 12px', fontSize: '13px' }}
+          title="Vista del día"
         >
-          <Clock size={16} />
-          Día
+          <Clock size={14} />
+          <span className="btn-text">Día</span>
         </button>
       </div>
 
@@ -236,32 +239,34 @@ const Appointments = () => {
                         <td>
                           <div className="action-buttons">
                             {appointment.status !== 'completed' && (
-                              <button 
-                                className="btn-sm btn-success" 
+                              <button
+                                className="btn-sm btn-success"
                                 title="Marcar como completada"
                                 onClick={() => handleComplete(appointment.id)}
-                                style={{ backgroundColor: '#10b981', color: 'white' }}
+                                style={{ backgroundColor: '#10b981', color: 'white', padding: '4px' }}
                               >
-                                <CheckCircle size={14} />
+                                <CheckCircle size={12} />
                               </button>
                             )}
-                            <button 
-                              className="btn-sm btn-edit" 
+                            <button
+                              className="btn-sm btn-edit"
                               title="Editar"
                               onClick={() => {
                                 setEditingAppointmentId(appointment.id);
                                 setIsModalOpen(true);
                               }}
+                              style={{ padding: '4px' }}
                             >
-                              <Edit size={14} />
+                              <Edit size={12} />
                             </button>
                             {checkPermission('canDeleteAppointments') && (
                               <button
                                 className="btn-sm btn-delete"
                                 onClick={() => handleDelete(appointment.id)}
                                 title="Eliminar"
+                                style={{ padding: '4px' }}
                               >
-                                <Trash2 size={14} />
+                                <Trash2 size={12} />
                               </button>
                             )}
                           </div>

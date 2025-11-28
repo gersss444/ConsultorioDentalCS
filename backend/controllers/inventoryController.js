@@ -161,7 +161,8 @@ const updateInventoryItem = async (req, res, next) => {
         }
 
         // Actualizar el item (excluir campos que no deben actualizarse directamente)
-        const { current_stock, stock_adjustments, id, created_at, _id, ...updateData } = req.body;
+        const { stock_adjustments, id, created_at, _id, ...updateData } = req.body; 
+        
         
         const result = await inventoryModel.update(itemId, updateData);
 
