@@ -1,0 +1,149 @@
+.calendar-view {
+  background: white;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.calendar-month-year {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.calendar-month-year h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #111827;
+}
+
+.calendar-nav-btn {
+  background: #f3f4f6;
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.calendar-nav-btn:hover {
+  background: #e5e7eb;
+}
+
+.calendar-grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.calendar-weekday {
+  text-align: center;
+  font-weight: 600;
+  color: #6b7280;
+  font-size: 0.875rem;
+  padding: 0.5rem;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+}
+
+.calendar-day {
+  min-height: 100px;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-day:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.calendar-day.other-month {
+  opacity: 0.4;
+  background: #f9fafb;
+}
+
+.calendar-day.today {
+  border-color: #3b82f6;
+  border-width: 2px;
+  background: #eff6ff;
+}
+
+.calendar-day.selected {
+  border-color: #10b981;
+  border-width: 2px;
+  background: #ecfdf5;
+}
+
+.calendar-day-number {
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.calendar-day-appointments {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  overflow: hidden;
+}
+
+.calendar-appointment {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  background: #3b82f6;
+  color: white;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: opacity 0.2s;
+}
+
+.calendar-appointment:hover {
+  opacity: 0.8;
+}
+
+.calendar-appointment.completed {
+  background: #10b981;
+}
+
+.calendar-appointment.cancelled {
+  background: #6b7280;
+}
+
+.calendar-more-appointments {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-style: italic;
+  padding: 0.25rem;
+}
+
+

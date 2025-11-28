@@ -1,0 +1,179 @@
+.day-view {
+  background: white;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.day-view-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.day-view-date {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.day-view-date h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #111827;
+  text-transform: capitalize;
+}
+
+.day-nav-btn {
+  background: #f3f4f6;
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.day-nav-btn:hover {
+  background: #e5e7eb;
+}
+
+.day-view-content {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.day-view-empty {
+  text-align: center;
+  padding: 3rem;
+  color: #6b7280;
+}
+
+.day-view-hours {
+  display: flex;
+  flex-direction: column;
+}
+
+.day-view-hour-row {
+  display: flex;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.day-view-hour-row:last-child {
+  border-bottom: none;
+}
+
+.day-view-hour-label {
+  min-width: 80px;
+  font-weight: 600;
+  color: #6b7280;
+  font-size: 0.875rem;
+  padding-top: 0.5rem;
+}
+
+.day-view-hour-appointments {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.day-view-hour-empty {
+  min-height: 40px;
+}
+
+.day-view-appointment {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-left: 4px solid #3b82f6;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.day-view-appointment:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+  transform: translateX(4px);
+}
+
+.day-view-appointment.completed {
+  border-left-color: #10b981;
+  opacity: 0.8;
+}
+
+.day-view-appointment.cancelled {
+  border-left-color: #6b7280;
+  opacity: 0.6;
+}
+
+.day-view-appointment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.day-view-appointment-time {
+  font-weight: 600;
+  color: #111827;
+  font-size: 1rem;
+}
+
+.day-view-appointment-status {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+}
+
+.day-view-appointment-patient {
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+.day-view-appointment-type {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
+.day-view-appointment-notes {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-style: italic;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.day-view-appointment-complete {
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: #10b981;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.day-view-appointment-complete:hover {
+  background: #059669;
+}
+
+
