@@ -2,12 +2,14 @@
 // Permit ever, crear, editar y eliminar pacientes del sistema
 import { useState, useEffect } from 'react';
 import { patientService } from '../services/patientService';
+import { appointmentService } from '../services/appointmentService';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { useConfirmDialog } from '../hooks/useConfirmDialog';
-import { Plus, Search, Edit, Trash2, UserPlus } from 'lucide-react';
+import { Plus, Search, Edit, Trash2, UserPlus, Calendar } from 'lucide-react';
 import PatientModal from '../components/modals/PatientModal';
 import ConfirmDialog from '../components/common/ConfirmDialog';
+import '../components/common/Modal.css';
 import './PageStyles.css';
 
 const Patients = () => {
@@ -32,6 +34,12 @@ const Patients = () => {
   // Estados para el modal de crear/editar paciente
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingPatientId, setEditingPatientId] = useState(null);
+
+  // Estados para el modal de historial
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
+  const [selectedPatient, setSelectedPatient] = useState(null);
+  const [patientHistory, setPatientHistory] = useState([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
 
   // Carga los pacientes cuando cambia la página
   useEffect(() => {
@@ -135,6 +143,39 @@ const Patients = () => {
     }
   };
 
+  const handleViewHistory = async (patientId) => {
+    
+    try {
+      setHistoryLoading(true);
+      setSelectedPatient(patients.find(p => p.id === patientId));
+
+      // Cargar solo las citas del paciente
+      const appointments = await appointmentService.getAll(1, 100);
+
+      // Filtrar citas por paciente y ordenar por fecha (más recientes primero)
+      const patientAppointments = appointments.data
+        .filter(apt => apt.patient_info?.id === patientId)
+        .map(appointment => ({
+          ...appointment,
+          type: 'appointment',
+          date: appointment.appointment_date,
+          title: `Cita - ${appointment.type || 'General'}`,
+          description: appointment.notes || 'Sin notas',
+          cost: appointment.cost || 0,
+          status: appointment.status
+        }))
+        .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      setPatientHistory(patientAppointments);
+      setIsHistoryModalOpen(true);
+    } catch (err) {
+      showToast('Error al cargar el historial del paciente', 'error');
+      console.error(err);
+    } finally {
+      setHistoryLoading(false);
+    }
+  };
+
   return (
     <div className="page-container">
       <div className="page-header">
@@ -216,8 +257,15 @@ const Patients = () => {
                       </td>
                       <td>
                         <div className="action-buttons">
-                          <button 
-                            className="btn-sm btn-edit" 
+                          <button
+                            className="btn-sm btn-info"
+                            title="Ver citas"
+                            onClick={() => handleViewHistory(patient.id)}
+                          >
+                            <Calendar size={14} />
+                          </button>
+                          <button
+                            className="btn-sm btn-edit"
                             title="Editar"
                             onClick={() => {
                               setEditingPatientId(patient.id);
@@ -284,6 +332,71 @@ const Patients = () => {
           }
         }}
       />
+
+      {/* Modal de Citas del Paciente */}
+      {isHistoryModalOpen && (
+        
+          <div className="modal-backdrop" onClick={() => setIsHistoryModalOpen(false)}>
+          <div className="modal-container modal-large history-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Citas de {selectedPatient ? `${selectedPatient.first_name} ${selectedPatient.last_name}` : 'Paciente'}</h2>
+              <button
+                className="modal-close"
+                onClick={() => setIsHistoryModalOpen(false)}
+                title="Cerrar"
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="modal-body">
+              {historyLoading ? (
+                <div className="loading">Cargando historial...</div>
+              ) : patientHistory.length === 0 ? (
+                <div className="empty-state">
+                  <p>No hay citas para este paciente.</p>
+                </div>
+              ) : (
+                <div className="history-timeline">
+                  {patientHistory.map((item, index) => (
+                    <div key={`${item.type}-${item.id}`} className="history-item">
+                      <div className="history-item-header">
+                        <div className="history-item-icon">
+                          <Calendar size={16} />
+                        </div>
+                        <div className="history-item-meta">
+                          <h4>{item.title}</h4>
+                          <span className="history-date">
+                            {new Date(item.date).toLocaleDateString('es-ES', {
+                              year: 'numeric',
+                              month: 'short',
+                              day: 'numeric'
+                            })}
+                          </span>
+                        </div>
+                        <div className="history-item-status">
+                          <span className={`status-badge ${item.type === 'dental_record' ? (item.status === 'Pagado' ? 'paid' : 'pending') : item.status}`}>
+                            {item.status}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="history-item-content">
+                        <p>{item.description}</p>
+                        {item.cost > 0 && (
+                          <div className="history-cost">
+                            Costo: ${item.cost.toFixed(2)}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       <ConfirmDialog
         isOpen={dialog.isOpen}
         onClose={closeDialog}

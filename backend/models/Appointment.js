@@ -38,6 +38,7 @@ class Appointment {
             type: appointmentData.type,
             status: appointmentData.status || 'scheduled',
             notes: appointmentData.notes || '',
+            cost: parseFloat(appointmentData.cost) || 0,
             created_at: new Date(),
             patient_info: appointmentData.patient_info,
             doctor_info: appointmentData.doctor_info,

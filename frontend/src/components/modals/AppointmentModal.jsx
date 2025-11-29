@@ -14,13 +14,14 @@ const AppointmentModal = ({ isOpen, onClose, appointmentId = null, onSuccess }) 
   
   // Estado del formulario con todos los campos de la cita
   const [formData, setFormData] = useState({
-    appointment_date: '',           
-    appointment_time: '',           
-    type: '',                       
-    status: 'scheduled',           
-    notes: '',                      
-    patient_info: { id: '', name: '' }, 
-    duration_minutes: 30,           
+    appointment_date: '',
+    appointment_time: '',
+    type: 'Cambio de Ligas',
+    status: 'scheduled',
+    notes: '',
+    cost: '400',
+    patient_info: { id: '', name: '' },
+    duration_minutes: 30,
   });
   
   // Lista de pacientes para seleccionar en el formulario
@@ -94,6 +95,7 @@ const AppointmentModal = ({ isOpen, onClose, appointmentId = null, onSuccess }) 
         type: appointment.type || '',
         status: appointment.status || 'scheduled',
         notes: appointment.notes || '',
+        cost: appointment.cost || '',
         patient_info: appointment.patient_info || { id: '', name: '' },
         duration_minutes: appointment.duration_minutes || 30,
       });
@@ -110,9 +112,10 @@ const AppointmentModal = ({ isOpen, onClose, appointmentId = null, onSuccess }) 
     setFormData({
       appointment_date: '',
       appointment_time: '',
-      type: '',
+      type: 'Cambio de Ligas',
       status: 'scheduled',
       notes: '',
+      cost: '400',
       patient_info: { id: '', name: '' },
       duration_minutes: 30,
     });
@@ -330,15 +333,23 @@ const AppointmentModal = ({ isOpen, onClose, appointmentId = null, onSuccess }) 
         <div className="form-row">
           <div className="form-group">
             <label htmlFor="type">Tipo *</label>
-            <input
-              type="text"
+            <select
               id="type"
               name="type"
               value={formData.type}
               onChange={handleChange}
               required
-              placeholder="Consulta, Limpieza, etc."
-            />
+            >
+              <option value="Cambio de Ligas">Cambio de Ligas</option>
+              <option value="Primera Consulta">Primera Consulta</option>
+              <option value="Revisión Mensual">Revisión Mensual</option>
+              <option value="Colocación de Brackets">Colocación de Brackets</option>
+              <option value="Consulta General">Consulta General</option>
+              <option value="Retiro de Brackets">Retiro de Brackets</option>
+              <option value="Tratamiento de Ortodoncia">Tratamiento de Ortodoncia</option>
+              <option value="Emergencia">Emergencia</option>
+              <option value="Control Post-Tratamiento">Control Post-Tratamiento</option>
+            </select>
           </div>
 
           <div className="form-group">
@@ -357,17 +368,33 @@ const AppointmentModal = ({ isOpen, onClose, appointmentId = null, onSuccess }) 
           </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="duration_minutes">Duración (minutos)</label>
-          <input
-            type="number"
-            id="duration_minutes"
-            name="duration_minutes"
-            value={formData.duration_minutes}
-            onChange={handleChange}
-            min="15"
-            step="15"
-          />
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="duration_minutes">Duración (minutos)</label>
+            <input
+              type="number"
+              id="duration_minutes"
+              name="duration_minutes"
+              value={formData.duration_minutes}
+              onChange={handleChange}
+              min="15"
+              step="15"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="cost">Costo ($)</label>
+            <input
+              type="number"
+              id="cost"
+              name="cost"
+              value={formData.cost}
+              onChange={handleChange}
+              min="0"
+              step="0.01"
+              placeholder="0.00"
+            />
+          </div>
         </div>
 
         <div className="form-group">

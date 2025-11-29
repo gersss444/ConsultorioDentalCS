@@ -102,6 +102,15 @@
   background: #e5e7eb;
 }
 
+.btn-info {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.btn-info:hover {
+  background: #dbeafe;
+}
+
 .btn-delete {
   background: #fef2f2;
   color: #dc2626;
@@ -308,4 +317,114 @@
     height: 24px;
     padding: 2px;
   }
+}
+
+/* Modal de Historial */
+.history-modal {
+  max-width: 700px;
+  max-height: 80vh;
+}
+
+.history-modal .modal-body {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.history-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.history-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.history-item-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.history-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f3f4f6;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.history-item-meta {
+  flex: 1;
+}
+
+.history-item-meta h4 {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.history-date {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.history-item-status {
+  flex-shrink: 0;
+}
+
+.history-item-content {
+  margin-left: 44px;
+}
+
+.history-item-content p {
+  margin: 0 0 8px 0;
+  color: #374151;
+  font-size: 14px;
+}
+
+.history-cost {
+  font-size: 13px;
+  font-weight: 600;
+  color: #059669;
+}
+
+.status-badge.paid {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.status-badge.pending {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.status-badge.scheduled {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.status-badge.completed {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.status-badge.cancelled {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.status-badge.rescheduled {
+  background: #f3f4f6;
+  color: #6b7280;
 }

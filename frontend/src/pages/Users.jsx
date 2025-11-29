@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { userService } from '../services/userService';
 import { useToast } from '../context/ToastContext';
+import { useConfirmDialog } from '../hooks/useConfirmDialog';
 import { Plus, Edit, Trash2, UserPlus } from 'lucide-react';
 import UserModal from '../components/modals/UserModal';
+import ConfirmDialog from '../components/common/ConfirmDialog';
 import './PageStyles.css';
 
 const Users = () => {
   const { showToast } = useToast();
+  const { dialog, showConfirm, closeDialog, handleConfirm } = useConfirmDialog();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -36,7 +39,14 @@ const Users = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('¿Estás seguro de desactivar este usuario?')) return;
+    const confirmed = await showConfirm({
+      title: 'Desactivar Usuario',
+      message: '¿Estás seguro de desactivar este usuario? Esta acción no se puede deshacer.',
+      confirmText: 'Desactivar',
+      cancelText: 'Cancelar',
+    });
+
+    if (!confirmed) return;
 
     try {
       await userService.delete(id);
@@ -182,6 +192,16 @@ const Users = () => {
         onSuccess={() => {
           loadUsers();
         }}
+      />
+
+      <ConfirmDialog
+        isOpen={dialog.isOpen}
+        onClose={closeDialog}
+        onConfirm={handleConfirm}
+        title={dialog.title}
+        message={dialog.message}
+        confirmText={dialog.confirmText}
+        cancelText={dialog.cancelText}
       />
     </div>
   );

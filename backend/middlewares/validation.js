@@ -365,7 +365,7 @@ const validateUpdatePatient = [
 const validateSearchQuery = [
   query('q')
     .notEmpty().withMessage('q es requerido')
-    .isLength({ min: 2 }).withMessage('q debe tener al menos 2 caracteres'),
+    .isLength({ min: 1 }).withMessage('q debe tener al menos 1 carácter'),
   handleValidationErrors
 ];
 

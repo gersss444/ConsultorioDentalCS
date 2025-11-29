@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { inventoryService } from '../services/inventoryService';
 import { useAuth } from '../context/AuthContext';
+import { useConfirmDialog } from '../hooks/useConfirmDialog';
 import { Plus, Edit, Trash2, Package } from 'lucide-react';
 import InventoryModal from '../components/modals/InventoryModal';
+import ConfirmDialog from '../components/common/ConfirmDialog';
 import './PageStyles.css';
 
 const Inventory = () => {
   const { checkPermission } = useAuth();
+  const { dialog, showConfirm, closeDialog, handleConfirm } = useConfirmDialog();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -36,7 +39,14 @@ const Inventory = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('¿Estás seguro de eliminar este item?')) return;
+    const confirmed = await showConfirm({
+      title: 'Eliminar Item',
+      message: '¿Estás seguro de eliminar este item del inventario? Esta acción no se puede deshacer.',
+      confirmText: 'Eliminar',
+      cancelText: 'Cancelar',
+    });
+
+    if (!confirmed) return;
 
     try {
       await inventoryService.delete(id);
@@ -190,6 +200,16 @@ const Inventory = () => {
         onSuccess={() => {
           loadItems();
         }}
+      />
+
+      <ConfirmDialog
+        isOpen={dialog.isOpen}
+        onClose={closeDialog}
+        onConfirm={handleConfirm}
+        title={dialog.title}
+        message={dialog.message}
+        confirmText={dialog.confirmText}
+        cancelText={dialog.cancelText}
       />
     </div>
   );
