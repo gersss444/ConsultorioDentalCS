@@ -6,10 +6,19 @@ const DayView = ({ appointments, selectedDate, onDateChange, onAppointmentClick,
   const [dayAppointments, setDayAppointments] = useState([]);
 
   useEffect(() => {
-    const dateStr = selectedDate.toISOString().split('T')[0];
+    const selectedYear = selectedDate.getUTCFullYear();
+    const selectedMonth = selectedDate.getUTCMonth();
+    const selectedDay = selectedDate.getUTCDate();
+
     const filtered = appointments.filter(apt => {
       const aptDate = new Date(apt.appointment_date);
-      return aptDate.toISOString().split('T')[0] === dateStr;
+      const aptYear = aptDate.getUTCFullYear();
+      const aptMonth = aptDate.getUTCMonth();
+      const aptDay = aptDate.getUTCDate();
+
+      return selectedYear === aptYear &&
+             selectedMonth === aptMonth &&
+             selectedDay === aptDay;
     });
     
     // Ordenar por hora
@@ -40,7 +49,11 @@ const DayView = ({ appointments, selectedDate, onDateChange, onAppointmentClick,
 
   const formatDate = (date) => {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    return date.toLocaleDateString('es-ES', options);
+    
+    // Para asegurar que la fecha se formatee en base a UTC para evitar desfases
+    const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+
+    return utcDate.toLocaleDateString('es-ES', options);
   };
 
   const getStatusConfig = (status) => {

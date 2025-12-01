@@ -45,10 +45,21 @@ const CalendarView = ({ appointments, selectedDate, onDateSelect, onAppointmentC
   };
 
   const getAppointmentsForDate = (date) => {
-    const dateStr = date.toISOString().split('T')[0];
+    // Normalizar la fecha del calendario a YYYY-MM-DD UTC
+    const calendarYear = date.getUTCFullYear();
+    const calendarMonth = date.getUTCMonth();
+    const calendarDay = date.getUTCDate();
+
     return appointments.filter(apt => {
       const aptDate = new Date(apt.appointment_date);
-      return aptDate.toISOString().split('T')[0] === dateStr;
+      // Normalizar la fecha de la cita a YYYY-MM-DD UTC
+      const aptYear = aptDate.getUTCFullYear();
+      const aptMonth = aptDate.getUTCMonth();
+      const aptDay = aptDate.getUTCDate();
+      
+      return calendarYear === aptYear &&
+             calendarMonth === aptMonth &&
+             calendarDay === aptDay;
     });
   };
 

@@ -87,7 +87,13 @@ const DentalRecordModal = ({ isOpen, onClose, recordId = null, onSuccess }) => {
       const response = await dentalRecordService.getById(recordId);
       const record = response.data;
       const nextAppointment = record.next_appointment 
-        ? new Date(record.next_appointment).toISOString().split('T')[0] 
+        ? (() => {
+            const date = new Date(record.next_appointment);
+            const year = date.getUTCFullYear();
+            const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+            const day = date.getUTCDate().toString().padStart(2, '0');
+            return `${year}-${month}-${day}`;
+          })()
         : '';
       
       setFormData({
@@ -151,6 +157,9 @@ const DentalRecordModal = ({ isOpen, onClose, recordId = null, onSuccess }) => {
         ...formData,
         patient_id: parseInt(formData.patient_id),
         treatment_cost: parseFloat(formData.treatment_cost) || 0,
+        next_appointment: formData.next_appointment 
+          ? new Date(`${formData.next_appointment}T00:00:00Z`).toISOString() 
+          : null,
         created_by_info: {
           id: user?.id || 'SYSTEM',
           name: user?.name || 'Sistema',

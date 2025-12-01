@@ -101,7 +101,15 @@ const Appointments = () => {
   const handleDelete = async (id) => {
     const appointment = appointments.find(a => a.id === id);
     const appointmentInfo = appointment 
-      ? `la cita del ${appointment.appointment_date ? new Date(appointment.appointment_date).toLocaleDateString('es-ES') : 'fecha'} con ${appointment.patient_info?.name || 'el paciente'}`
+      ? `la cita del ${appointment.appointment_date 
+          ? (() => {
+              const date = new Date(appointment.appointment_date);
+              const day = date.getUTCDate().toString().padStart(2, '0');
+              const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+              const year = date.getUTCFullYear().toString().slice(-2); 
+              return `${day}/${month}/${year}`;
+            })()
+          : 'fecha'} con ${appointment.patient_info?.name || 'el paciente'}`
       : 'esta cita';
     
     const confirmed = await showConfirm({
@@ -215,7 +223,13 @@ const Appointments = () => {
                         <td>{appointment.id}</td>
                         <td>
                           {appointment.appointment_date
-                            ? new Date(appointment.appointment_date).toLocaleDateString('es-ES')
+                            ? (() => {
+                                const date = new Date(appointment.appointment_date);
+                                const day = date.getUTCDate().toString().padStart(2, '0');
+                                const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+                                const year = date.getUTCFullYear().toString().slice(-2); // Últimos dos dígitos del año
+                                return `${day}/${month}/${year}`;
+                              })()
                             : '-'}
                         </td>
                         <td>{appointment.appointment_time || '-'}</td>
